@@ -26,14 +26,31 @@ fn calc_distances(input: &Input) -> i32 {
     distance
 }
 
+fn calc_similarity_scores(needles: &Vec<i32>, haystack: &Vec<i32>) -> i32 {
+    let mut score = 0;
+    for needle in needles {
+        let mut needle_count = 0;
+        for hay in haystack {
+            if needle == hay {
+                needle_count += 1;
+            }
+        }
+        score += needle * needle_count;
+    }
+    score
+}
+
 fn main() {
     let mut input = read_input();
     input.left.sort();
     input.right.sort();
     let distance = calc_distances(&input);
+    let left_similar = calc_similarity_scores(&input.left, &input.right);
+    let right_similar = calc_similarity_scores(&input.right, &input.left);
     let zipbag = input.left.iter().zip(input.right.iter());
     for (&left, &right) in zipbag {
-        println!("{} => {} == {}", left, right, distance)
+        println!("{} => {} == {} {} {}",
+            left, right, distance, left_similar, right_similar)
     }
 }
 

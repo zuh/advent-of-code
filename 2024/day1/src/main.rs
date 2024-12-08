@@ -29,12 +29,8 @@ fn calc_distances(input: &Input) -> i32 {
 fn calc_similarity_scores(needles: &Vec<i32>, haystack: &Vec<i32>) -> i32 {
     let mut score = 0;
     for needle in needles {
-        let mut needle_count = 0;
-        for hay in haystack {
-            if needle == hay {
-                needle_count += 1;
-            }
-        }
+        let needle_count = haystack.iter().filter(
+            |h| *h == needle).count() as i32;
         score += needle * needle_count;
     }
     score
